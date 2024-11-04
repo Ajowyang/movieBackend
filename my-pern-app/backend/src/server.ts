@@ -44,10 +44,10 @@ app.put('/api/updateMovie/:movieId', async (req, res, next)=>{
         const {newTitle, newSummary, newImdbLink, newRating} = req.body
         const sql = `
         update "movies"
-        set "title" = $2
-        set "summary" = $3
-        set "imdbLink" = $5
-        set "rating" = $5
+        set "title" = $2,
+            "summary" = $3,
+            "imdbLink" = $4,
+            "rating" = $5
         where ("movieId" = $1)
         returning *
         `;
