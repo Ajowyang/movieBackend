@@ -27,9 +27,9 @@ export function DeleteMovieForm(){
         }
     
     return(
-        <div className='flex flex-col bg-gray-500 py-2 my-2'>
+        <div className='flex flex-col bg-gray-500 p-5 my-2'>
             <form onSubmit={handleSubmit}>
-            <div>
+            <div className='flex'>
             <label>Movie ID:</label>
             <input type="text" onChange={(e)=>setMovieId(Number(e.target.value))}/>
             </div>

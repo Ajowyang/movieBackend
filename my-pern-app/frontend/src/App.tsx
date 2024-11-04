@@ -4,7 +4,7 @@ import { fetchGreeting } from './services/api';
 import { CreateMovieForm } from './components/CreateMovieForm';
 import { MovieList } from './components/MovieList';
 import { DeleteMovieForm } from './components/DeleteMovieForm';
-
+import { UpdateMovieForm } from './components/UpdateMovieForm';
 
 
 function App() {
@@ -20,7 +20,9 @@ function App() {
   <h1>frontend header</h1>
   <MovieList/>
   <CreateMovieForm/>
+  <UpdateMovieForm/>
   <DeleteMovieForm/>
+
   </>
   ;
 }

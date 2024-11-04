@@ -39,7 +39,7 @@ export function CreateMovieForm(){
             <div className='flex my-2'>
                 <label>Title:</label>
                 <input type='text' id='title' onChange={(e)=>{setTitle(e.target.value)}} required/>            
-                </div>
+            </div>
             <div className="flex my-2">
                 <label>IMDB Link:</label>
                 <input type='text' id='imdbLink' onChange={(e)=>{setImdbLink(e.target.value)}} required/>            </div>
