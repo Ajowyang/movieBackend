@@ -1,5 +1,5 @@
 
-import {useEffect, useState} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 import { Movie } from '../lib/data'
 
 export function MovieList(){
@@ -7,28 +7,29 @@ export function MovieList(){
     const [error, setError] =useState<unknown>()
     const [isLoading, setIsLoading] = useState(true)
 
-    useEffect(()=>{
-        const fetchData = async ()=>{
-            try{
-                const response = await fetch(`/api/getMovies`);
-                if(!response.ok){
-                    throw new Error(`HTTP error! Status:${response.status}`)
-                }
-                console.log('before data set ')
-                const data = (await response.json()) as Movie[]
-                console.log('???')
-                setMovies(data)
-                console.log(`data movies: ${movies}`)
+    const fetchData = useCallback(async()=>{
+        try{
+            const response = await fetch(`/api/getMovies`);
+            if(!response.ok){
+                throw new Error(`HTTP error! Status:${response.status}`)
             }
-            catch(err){
-                console.error(err)
-                setError(err)
-            }finally{
-                setIsLoading(false)
-            }
+            console.log('before data set ')
+            const data = (await response.json()) as Movie[]
+            console.log('???')
+            setMovies(data)
+            console.log(`data movies: ${movies}`)
         }
-        fetchData()
+        catch(err){
+            console.error(err)
+            setError(err)
+        }finally{
+            setIsLoading(false)
+        }
     }, [])
+
+    useEffect(()=>{ 
+        fetchData()
+    }, [movies])
 
     if(isLoading){
         return<div>Loading...</div>
