@@ -16,8 +16,6 @@ function App() {
 
 
   return <>
-  {/* <div className="text-center text-xl">{greeting}</div>
-  <h1>frontend header</h1> */}
   <MovieList/>
   <CreateMovieForm/>
   <UpdateMovieForm/>
