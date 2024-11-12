@@ -28,7 +28,7 @@ app.post('/api/createMovie', async (req, res, next)=>{
     try{
         const { title, summary, imdbLink, rating} = req.body;
         if(typeof rating !== 'number'){
-            // throw new ClientError(400, `rating must be integer`);
+            res.status(400).json({ message: 'rating must be a number!' });
         }
 
         const sql = `
@@ -37,7 +37,11 @@ app.post('/api/createMovie', async (req, res, next)=>{
         returning *
         `;
         const result = await db.query(sql, [title, summary, imdbLink, rating ])
-        res.json(result.rows)
+        if (result.rows.length === 0) {
+            res.status(500).json({ message: 'Error creating movie' });
+        }
+
+        res.status(201).json(result.rows[0])
     }
     catch(err){
         next(err)
@@ -48,6 +52,9 @@ app.put('/api/updateMovie/:movieId', async (req, res, next)=>{
     try{
         const {movieId} = req.params
         const {newTitle, newSummary, newImdbLink, newRating} = req.body
+        if(typeof newRating !== 'number'){
+            res.status(400).json({ message: 'new rating must be a number!' });
+        }
         const sql = `
         update "movies"
         set "title" = $2,
@@ -58,7 +65,7 @@ app.put('/api/updateMovie/:movieId', async (req, res, next)=>{
         returning *
         `;
         const result = await db.query(sql, [movieId, newTitle, newSummary, newImdbLink, newRating])
-        res.json(result.rows)
+        res.json(result.rows[0])
     }
     catch(err){
         next(err)
@@ -68,13 +75,20 @@ app.put('/api/updateMovie/:movieId', async (req, res, next)=>{
 app.delete('/api/deleteMovie/:movieId', async (req, res, next)=>{
     try{
         const {movieId} = req.params
+
+        if(!Number(movieId)){
+            res.status(400).json({ message: 'movieId must be a number!' });
+        }
         const sql = `
         delete from "movies"
         where ("movieId" = $1)
         returning *
         `;
         const result = await db.query(sql, [movieId]);
-        res.json(result.rows)
+        if (result.rows.length === 0) {
+            res.status(500).json({ message: 'Error deleting movie' });
+        }
+        res.status(204).json()
     }
     catch(err){
         next(err)
